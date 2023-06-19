@@ -61,4 +61,8 @@ export const dispatchApiMessage = (dispatch, Action, message) => {
   }, 3000);
 };
 
+export const dispatchAction = (dispatch, Action, data) => {
+  dispatch(Action(data));
+};
+
 export default ApiServices;

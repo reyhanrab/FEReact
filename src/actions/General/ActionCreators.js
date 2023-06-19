@@ -1,5 +1,5 @@
-import ApiServices, { handleNetworkError, dispatchApiMessage } from "../../middleware/ApiServices";
-import { SUCCESSMSG } from "./Actions";
+import ApiServices, { handleNetworkError, dispatchApiMessage, dispatchAction } from "../../middleware/ApiServices";
+import { SUCCESSMSG, USERDATA } from "./Actions";
 
 export const SIGNUP = (obj, formRef) => async (dispatch) => {
   try {
@@ -32,6 +32,17 @@ export const LOGOUT = (userId, navigate) => async (dispatch) => {
     if (apiResponse) {
       navigate("/login");
       dispatchApiMessage(dispatch, SUCCESSMSG, apiResponse.message);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+
+export const GETUSERDATA = () => async (dispatch) => {
+  try {
+    const apiResponse = await ApiServices.get(`/api/users`);
+    if (apiResponse) {
+      dispatchAction(dispatch, USERDATA, apiResponse.results);
     }
   } catch (error) {
     handleNetworkError(error);

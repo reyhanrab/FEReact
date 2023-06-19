@@ -8,6 +8,8 @@ import {
 } from "./AddProject.config";
 import PopUp from "../../../common/PopUp/PopUp";
 import GenerateForm from "../../../common/GenerateForm/GenerateForm";
+import { useDispatch, useSelector } from "react-redux";
+import { handleOptionsData } from "../../../common/commonfunctions";
 
 function AddProject(props) {
   return (
@@ -28,10 +30,17 @@ function AddProject(props) {
 }
 
 const RenderCreateProjectForm = (props) => {
+  const userData = useSelector((state) => state.GeneralReducer.userData);
+  const statusData = useSelector((state) => state.StaticDataReducer.statusData);
+
+
+  const modifiedFormConfig = handleOptionsData(FormConfig, "owner", userData);
+  const modifiedFormConfig2 = handleOptionsData(modifiedFormConfig, "status", statusData);
+
   return (
     <>
       <form id="createProjectForm" ref={props.formRef} noValidate={true}>
-        {FormConfig.map((element) => {
+        {modifiedFormConfig2.map((element) => {
           return (
             <div key={element.id}>
               <GenerateForm data={element} />
