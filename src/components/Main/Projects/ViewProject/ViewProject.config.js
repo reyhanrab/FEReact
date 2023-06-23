@@ -1,11 +1,19 @@
 export const TableHeaders = [
     {
       title: "Title",
-      property: "name",
+      property: "title",
+    },
+    {
+      title: "Description",
+      property: "description",
     },
     {
       title: "Start Date",
-      property: "start_date",
+      property: "startDate",
+    },
+    {
+      title: "End Date",
+      property: "endDate",
     },
     {
       title: "Owner",

@@ -54,3 +54,61 @@ export const handleOptionsData = (formData, accessor, optionsData) => {
   });
   return arr;
 };
+
+export const defaultSorting = (data) => {
+  let returnValue = '';
+  data.forEach((value) => {
+    if (value.defaultSorting) {
+      returnValue = value.accessor;
+    }
+  });
+  return returnValue;
+};
+
+export const defaultSortingOrder = (data) => {
+  let returnValue = 'asc';
+  data.forEach((value) => {
+    if (value.defaultSortingOrder == 'desc') {
+      returnValue = 'desc';
+    }
+  });
+  return returnValue;
+};
+
+export const nestedIfCaseHandle = (condition, trueValue, falseValue) => {
+  if (condition) {
+    return trueValue;
+  } else {
+    return falseValue;
+  }
+};
+
+export const convertNull = (temp, header, showNA) => {
+  if (temp[header.property] == null || temp[header.property] == undefined) {
+    temp[header.property] = nestedIfCaseHandle(showNA, 'N/A', '');
+  }
+  return temp;
+};
+
+export const restructureArray = (records, jsonData, showNA) => {
+  return records?.map((data) => {
+    let temp = { ...data };
+    jsonData.forEach((header) => {
+      convertNull(temp, header, showNA);
+      // convertPhoneNumber(temp, header);
+      // convertZipCode(temp, header);
+      // convertTimeStampToDate(temp, header);
+      // convertTimeStampToDateTime(temp, header);
+      // structureconvertTimetoUTC(temp, header);
+      // capitalize(temp, header);
+      // convertCurreny(temp, header);
+      // handleBooleanToYesNo(temp, header);
+      // refactorPhoneStatus(temp, header);
+      // handleSsn(temp, header);
+      // handleBooleanToActiveInActive(temp, header);
+      // handleBooleanToHistoricalCurrent(temp, header);
+      // handleFalseStatus(temp, header);
+    });
+    return temp;
+  });
+};

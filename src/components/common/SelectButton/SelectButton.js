@@ -27,7 +27,8 @@ function SelectButton(props) {
           </Box>
         )}
 
-        <Select displayEmpty disabled={props.data.disabled} value={value} onChange={(event) => setValue(event.target.value)}>
+        <Select displayEmpty disabled={props.data.disabled} name={props.data.name} value={value} 
+        onChange={(event) => setValue(event.target.value)}>
           {options?.map((item) => {
             return (
               <MenuItem

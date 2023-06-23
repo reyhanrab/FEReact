@@ -42,7 +42,7 @@ const RenderLoginForm = (props) => {
       <div style={{ textAlign: "center" }}>
         <h3>LogIn</h3>
       </div>
-      <form onSubmit={handleSubmit} ref={props.formRef}>
+      <form id="loginForm" onSubmit={handleSubmit} ref={props.formRef}>
         {FormConfig.map((element) => {
           return (
             <div key={element.id}>

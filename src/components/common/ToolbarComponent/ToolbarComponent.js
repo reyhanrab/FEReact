@@ -14,7 +14,7 @@ export default function ToolbarComponent(props) {
     }
   };
   return (
-    <Toolbar>
+    <Toolbar sx={{ minHeight: "48px !important"}}>
       <Grid container>
         <Grid
           item

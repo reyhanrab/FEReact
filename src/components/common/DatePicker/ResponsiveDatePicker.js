@@ -34,6 +34,7 @@ export default function ResponsiveDatePicker(props) {
           }}
           openTo="year"
           views={props.data.views}
+          name={props.data.name}
           value={value}
           onChange={(newValue) => setValue(newValue)}
           allowSameDateSelection={props.data.allowSameDateSelection}

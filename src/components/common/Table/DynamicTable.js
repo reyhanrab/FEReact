@@ -1,64 +1,164 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import React, { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography } from "@mui/material";
+import { returnValueOrDefault, returnValueOrDefaultNested, defaultSorting, defaultSortingOrder } from "../commonfunctions";
+import IconButtonComponent from "../IconButton/IconButtonComponent";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { MoreHoriz } from "@mui/icons-material";
 
-export default function DynamicTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const getColor = (order, type, active) => {
+  if (order === type || order === "") {
+    return "disabled";
+  }
+  if (active) {
+    return "";
+  }
+  return "disabled";
+};
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+function stablesort(records, comparator) {
+  const stablizedThis = records.map((el, index) => [el, index]);
+  stablizedThis.sort((a, b) => {
+    const neworder = comparator(a[0], b[0]);
+    if (neworder !== 0) return neworder;
+    return a[1] - b[1];
+  });
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  return stablizedThis.map((el) => el[0]);
+}
 
+function getComparator(sortOrder, sortOrderBy) {
+  return sortOrder === "desc"
+    ? (a, b) => descendingComparator(a, b, sortOrderBy)
+    : (a, b) => -descendingComparator(a, b, sortOrderBy);
+}
+
+function descendingComparator(a, b, compOrder) {
+  if (JSON.stringify(b[compOrder]) < JSON.stringify(a[compOrder])) {
+    return -1;
+  }
+  if (JSON.stringify(b[compOrder]) > JSON.stringify(a[compOrder])) {
+    return 1;
+  }
+  return 0;
+}
+
+const recordsAfterPagingandSorting = (currentRecordss, order, orderBy) => {
+  return stablesort(currentRecordss, getComparator(order, orderBy));
+};
+
+const Icon = (newprops) => {
+  const { orderColumn, orderBy, order } = newprops;
+  const active = orderColumn === orderBy;
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+    <span
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "Center",
+        alignItems: "Center",
+        paddingBottom: "10px",
+      }}
+    >
+      <KeyboardArrowUpIcon sx={{ fontSize: "18px", marginBottom: "-8px" }} color={getColor(order, "desc", active)} />
+      <KeyboardArrowDownIcon sx={{ fontSize: "18px", marginBottom: "-8px" }} color={getColor(order, "asc", active)} />
+    </span>
+  );
+};
+
+const DynamicTable = (props) => {
+  const [order, setOrder] = useState(defaultSortingOrder(props.tableHeaders));
+  const [orderBy, setOrderby] = useState(
+    returnValueOrDefault(defaultSorting(props.tableHeaders), props.tableHeaders[0]?.property)
+  );
+
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    setRows(props.rows);
+  }, [props.rows]);
+
+  const handleSortingRequest = (cellId) => {
+    const isAsc = (orderBy === cellId) & (order === "asc");
+    if (isAsc) {
+      setOrder("desc");
+    } else {
+      setOrder("asc");
+    }
+    setOrderby(cellId);
+  };
+
+  if (rows?.length > 0) {
+    return (
+      <TableContainer>
+        <Table stickyHeader>
           <TableHead>
-            <TableRow>
-              {columns.map((column) => (
+            <TableRow hover>
+              {props.tableHeaders.map((header, index) => (
                 <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  component="th"
+                  align="left"
+                  id={index}
+                  scope="row"
+                  padding="normal"
+                  key={header.property}
+                  sortDirection={returnValueOrDefaultNested([orderBy === header.property], [order], false)}
                 >
-                  {column.label}
+                  <Typography noWrap>
+                    {/* {props.showSorting ? (
+                      <TableSortLabel
+                        active={returnValueOrDefaultNested([orderBy === header.property], [true], false)}
+                        direction={returnValueOrDefaultNested([orderBy === header.property], [order], "asc")}
+                        onClick={() => {
+                          handleSortingRequest(header.property);
+                        }}
+                        IconComponent={<Icon orderColumn={header.property} orderBy={orderBy} order={order} />}
+                      >
+                        {header.title}
+                      </TableSortLabel>
+                    ) : header.title
+                    } */}
+                    {header.title}
+                  </Typography>
                 </TableCell>
               ))}
+              <>
+                {props.showFilter && (
+                  <TableCell>
+                    <IconButtonComponent title="More Actions" icon={<MoreHoriz />} />
+                  </TableCell>
+                )}
+              </>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
+            {recordsAfterPagingandSorting(rows, order, orderBy).map((row, index) => {
+              return (
+                <TableRow key={`${row.id}_${index + 1}`}>
+                  {props.tableHeaders.map((header) => {
+                    return (
+                      row.hasOwnProperty(header.property) && (
+                        <TableCell key={header.property} align="left">
+                          {row[header.property]}
                         </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                      )
+                    );
+                  })}
+                  <>
+                    {props.showMoreButton && (
+                      <TableCell>
+                        <IconButtonComponent title="More Actions" icon={<MoreHoriz />} />
+                      </TableCell>
+                    )}
+                  </>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
-  );
-}
+    );
+  }
+};
+
+export default DynamicTable;
