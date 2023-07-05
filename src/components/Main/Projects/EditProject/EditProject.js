@@ -5,14 +5,14 @@ import {
   dialogDataHeader,
   dialogStructureFooter,
   dialogStructureHeader,
-} from "./AddProject.config";
+} from "./EditProject.config";
 import PopUp from "../../../common/PopUp/PopUp";
 import GenerateForm from "../../../common/GenerateForm/GenerateForm";
 import { useDispatch, useSelector } from "react-redux";
 import { handleOptionsData } from "../../../common/commonfunctions";
 import { CREATEPROJECTS } from "../../../../actions/Projects/ActionCreators";
 
-function AddProject(props) {
+function EditProject(props) {
   return (
     <>
       <PopUp
@@ -22,39 +22,31 @@ function AddProject(props) {
         dialogStructureHeader={dialogStructureHeader}
         dialogDataFooter={dialogDataFooter}
         dialogStructureFooter={dialogStructureFooter}
-        formName="createProjectForm"
+        formName="editProjectForm"
       >
-        <RenderCreateProjectForm handleDialog={props.handleDialog} showDialog={props.showDialog} />
+        <RenderEditProjectForm handleDialog={props.handleDialog} showDialog={props.showDialog} tableRowId={props.tableRowId} />
       </PopUp>
     </>
   );
 }
 
-const RenderCreateProjectForm = (props) => {
-  const [dateValue, setDateValue] = React.useState({});
+const RenderEditProjectForm = (props) => {
   const dispatch = useDispatch();
   const formRef = React.useRef();
 
   const userData = useSelector((state) => state.GeneralReducer.userData);
   const statusData = useSelector((state) => state.StaticDataReducer.statusData);
+  const projectsData = useSelector((state) => state.ProjectReducer.projectData);
+
+  const tableRowData = projectsData.find((project) => project._id === props.tableRowId);
 
   const modifiedFormConfig = handleOptionsData(FormConfig, "owner", userData);
   const modifiedFormConfig2 = handleOptionsData(modifiedFormConfig, "status", statusData);
-
-  const handleChange = (name, value) => {
-    const convertedDate = new Date(value).toISOString();
-    setDateValue({
-      ...dateValue,
-      [name]: convertedDate,
-    });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
-    Object.assign(obj, dateValue);
-    
     for (const key in obj) {
       let trimmedValue = obj[key].trim();
       if (trimmedValue.length === 0) {
@@ -66,11 +58,11 @@ const RenderCreateProjectForm = (props) => {
 
   return (
     <>
-      <form id="createProjectForm" ref={formRef} noValidate={true} onSubmit={handleSubmit}>
+      <form id="editProjectForm" ref={formRef} noValidate={true} onSubmit={handleSubmit}>
         {modifiedFormConfig2.map((element) => {
           return (
             <div key={element.id}>
-              <GenerateForm data={element} handleChange={handleChange} />
+              <GenerateForm data={element} tableRowData={tableRowData} />
             </div>
           );
         })}
@@ -79,4 +71,4 @@ const RenderCreateProjectForm = (props) => {
   );
 };
 
-export default React.memo(AddProject);
+export default React.memo(EditProject);

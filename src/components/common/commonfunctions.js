@@ -90,11 +90,18 @@ export const convertNull = (temp, header, showNA) => {
   return temp;
 };
 
-export const restructureArray = (records, jsonData, showNA) => {
+export const addRowActionData = (temp, rowActionData) => {
+  temp.rowActionData = rowActionData
+  return temp;
+};
+
+
+export const restructureArray = (records, jsonData, showNA, rowActionData) => {
   return records?.map((data) => {
     let temp = { ...data };
     jsonData.forEach((header) => {
       convertNull(temp, header, showNA);
+      addRowActionData(temp, rowActionData);
       // convertPhoneNumber(temp, header);
       // convertZipCode(temp, header);
       // convertTimeStampToDate(temp, header);
@@ -111,4 +118,27 @@ export const restructureArray = (records, jsonData, showNA) => {
     });
     return temp;
   });
+};
+
+export const getMenuOptions = (icon, label) => {
+  return (
+    <div style={{ display: 'flex' }}>
+      <div>
+        {icon}
+      </div>
+      <div style={{ paddingLeft: '5px', fontWeight: 400 }}>{label}</div>
+    </div>
+  );
+};
+
+export const convertTimestamptoUSA = (input) => {
+  if (input) {
+    let date = new Date(input);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  }
+  return null;
 };

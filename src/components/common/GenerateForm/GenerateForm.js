@@ -3,31 +3,44 @@ import * as React from "react";
 import TextFieldComp from "../TextField/TextFieldComp";
 import ResponsiveDatePicker from "../DatePicker/ResponsiveDatePicker";
 import SelectButton from "../SelectButton/SelectButton";
+import { returnValueOrDefaultNested } from "../commonfunctions";
 
 function GenerateForm(props) {
-  if (props.data.type === "input") {
+  const { data, tableRowData = {}, handleChange } = props;
+
+  if (data.type === "input") {
     return (
       <Grid container>
-        <Grid item xs={props.data.xs}>
-          <TextFieldComp data={props.data} />
+        <Grid item xs={data.xs}>
+          <TextFieldComp
+            data={data}
+            value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+          />
         </Grid>
       </Grid>
     );
   }
-  if (props.data.type === "date") {
+  if (data.type === "date") {
     return (
       <Grid container>
-        <Grid item xs={props.data.xs}>
-          <ResponsiveDatePicker data={props.data} />
+        <Grid item xs={data.xs}>
+          <ResponsiveDatePicker
+            data={data}
+            value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+            handleChange={handleChange}
+          />
         </Grid>
       </Grid>
     );
   }
-  if (props.data.type === "select") {
+  if (data.type === "select") {
     return (
       <Grid container>
-        <Grid item xs={props.data.xs}>
-          <SelectButton data={props.data} />
+        <Grid item xs={data.xs}>
+          <SelectButton
+            data={data}
+            value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+          />
         </Grid>
       </Grid>
     );

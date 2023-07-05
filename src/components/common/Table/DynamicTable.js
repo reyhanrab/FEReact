@@ -147,7 +147,13 @@ const DynamicTable = (props) => {
                   <>
                     {props.showMoreButton && (
                       <TableCell>
-                        <IconButtonComponent title="More Actions" icon={<MoreHoriz />} />
+                        <IconButtonComponent
+                          title="More Actions"
+                          icon={<MoreHoriz />}
+                          handleClick={props.handleClick}
+                          rowActionData={row.rowActionData}
+                          rowId = {row._id}
+                        />
                       </TableCell>
                     )}
                   </>

@@ -57,7 +57,7 @@ export default () => {
       MuiTableCell: {
         styleOverrides: {
           root: {
-            fontFamily: "Poppins",
+            // fontFamily: "Poppins",
           },
           head: {
             // zIndex: 'unset !important',

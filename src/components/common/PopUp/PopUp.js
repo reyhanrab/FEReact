@@ -60,7 +60,7 @@ const PopUp = (props) => {
                     form={returnValueOrDefaultNested([footerData.operation?.includes("click") && structureData.type == "submit"], [props.formName], "")}
                     onClick={returnValueOrDefaultNested(
                       [footerData.operation?.includes("click") && structureData.type !== "submit"],
-                      [() => props.handleDialog(!props.showDialog, structureData.type)],
+                      [() => props.handleDialog(!props.showDialog)],
                       null
                     )}
                   >

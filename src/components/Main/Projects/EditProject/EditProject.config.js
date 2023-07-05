@@ -1,15 +1,15 @@
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButtonComponent from "../../../common/IconButton/IconButtonComponent";
 
 export const dialogDataHeader = [
   {
-    label: <AddCircleOutlineIcon />,
-    accessor: "AddIcon",
+    label: <EditOutlinedIcon />,
+    accessor: "EditIcon",
     operation: [],
   },
   {
-    label: "Create Project",
+    label: "Edit Project",
     accessor: "title",
     operation: [],
   },
@@ -31,7 +31,7 @@ export const dialogDataFooter = [
   },
   {
     label: "Save",
-    accessor: "addButton",
+    accessor: "editButton",
     operation: ["click"],
     type: "button",
     variant: "contained",
@@ -44,7 +44,7 @@ export const dialogStructureHeader = [
     id: 1,
     size: 0.5,
     component: "label",
-    accessor: "AddIcon",
+    accessor: "EditIcon",
     styles: {
       display: "flex",
     },
@@ -79,7 +79,7 @@ export const dialogStructureFooter = [
   {
     id: 2,
     component: "label",
-    accessor: "addButton",
+    accessor: "editButton",
     type: "submit",
   },
 ];

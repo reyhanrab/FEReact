@@ -3,12 +3,12 @@ import * as React from "react";
 import { returnValueOrDefault } from "../commonfunctions";
 
 function SelectButton(props) {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(props.value);
   const [options, setOptions] = React.useState(props.data.options);
 
   const setDefaultObject = () => {
     let defaultObject = {};
-    defaultObject[props.data.optionValue] = props.data.defaultValue || '';
+    defaultObject[props.data.optionValue] = props.data.defaultValue || "";
     defaultObject[props.data.optionLabel] = props.data.defaultLabel || props.data.placeholder;
     let newOptions = [defaultObject, ...options];
     setOptions(newOptions);
@@ -27,8 +27,13 @@ function SelectButton(props) {
           </Box>
         )}
 
-        <Select displayEmpty disabled={props.data.disabled} name={props.data.name} value={value} 
-        onChange={(event) => setValue(event.target.value)}>
+        <Select
+          displayEmpty
+          disabled={props.data.disabled}
+          name={props.data.name}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        >
           {options?.map((item) => {
             return (
               <MenuItem

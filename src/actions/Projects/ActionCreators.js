@@ -5,7 +5,6 @@ export const GETPROJECTS = () => async (dispatch) => {
   try {
     const apiResponse = await ApiServices.get(`/api/projects`);
     if (apiResponse) {
-      console.log('apiResponse',apiResponse)
       dispatchAction(dispatch, PROJECTSDATA, apiResponse.results);
     }
   } catch (error) {
@@ -19,6 +18,7 @@ export const CREATEPROJECTS = (obj, formRef, handleDialog, showDialog) => async 
     if (apiResponse) {
         formRef.current.reset();
         handleDialog(!showDialog)
+        dispatch(GETPROJECTS());
     }
   } catch (error) {
     handleNetworkError(error);

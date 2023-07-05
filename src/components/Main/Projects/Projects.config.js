@@ -1,6 +1,6 @@
-import { MoreHoriz } from "@mui/icons-material";
-import IconButtonComponent from "../../common/IconButton/IconButtonComponent";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { getMenuOptions } from "../../common/commonfunctions";
 
 export const TabsData = [
   {
@@ -27,7 +27,7 @@ export const ToolbarData = [
     accessor: "tabs",
   },
   {
-    label: <IconButtonComponent title="More Actions" icon={<MoreHoriz />} />,
+    label: null,
     accessor: "iconButton",
     operation: ["click"],
   },
@@ -67,17 +67,22 @@ export const ToolbarStructure = [
 export const PositionedMenuAddItems = [
   {
     id: 1,
-    label: <AddCircleOutlineIcon />,
-    accessor: "Create Project",
+    label: getMenuOptions(<AddCircleOutlineIcon />, 'Create Project'),
     componentToRender: "createProject",
-    styles: {
-      icon: {
-        display: "flex",
-      },
-      text: {
-        paddingLeft: "5px",
-        fontWeight: 400,
-      },
-    },
+  },
+];
+
+export const PositionedMenuEditItems = [
+  {
+    id: 1,
+    label: getMenuOptions(<EditOutlinedIcon />, "View Project"),
+    componentToRender: "viewProject",
+    operation: ["view"],
+  },
+  {
+    id: 2,
+    label: getMenuOptions(<EditOutlinedIcon />, "Edit Project"),
+    componentToRender: "editProject",
+    operation: ["edit"],
   },
 ];
