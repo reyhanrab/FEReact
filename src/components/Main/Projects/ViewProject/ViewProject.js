@@ -5,16 +5,20 @@ import { GETPROJECTS } from "../../../../actions/Projects/ActionCreators";
 import { TableHeaders } from "./ViewProject.config";
 import DynamicTable from "../../../common/Table/DynamicTable";
 import { restructureArray } from "../../../common/commonfunctions";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewProject({ rowActionData, handleClick }) {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const projectData = useSelector((state) => state.ProjectReducer.projectData);
+  const statusData = useSelector((state) => state.StaticDataReducer.statusData);
+  const userData = useSelector((state) => state.GeneralReducer.userData);
 
   React.useEffect(() => {
-    dispatch(GETPROJECTS());
+    if (userData.length == 0) {
+      navigate("/main");
+    }
   }, []);
-
 
   if (projectData.length > 0) {
     return (

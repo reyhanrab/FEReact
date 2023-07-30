@@ -10,10 +10,15 @@ function Navbar(props) {
   const navigate = useNavigate();
 
   const handleClick = (settings) => {
-    if (settings?.operation?.includes("dispatch")) {
-      dispatch(settings.action(navigate));
-    } else {
-      settings.action(navigate);
+    const operation = "operation" in settings && settings.operation[0];
+    switch (operation) {
+      case "disptach":
+        return dispatch(settings.action(navigate));
+      case "navigation":
+        return navigate(`${settings.path}`);
+
+      default:
+        break;
     }
   };
 

@@ -1,16 +1,15 @@
 import * as React from "react";
-import { TabsData, ToolbarData, ToolbarStructure, PositionedMenuAddItems, PositionedMenuEditItems } from "./Projects.config";
+import { TabsData, ToolbarData, ToolbarStructure, PositionedMenuAddItems, PositionedMenuEditItems } from "./Users.config";
 import { Box, Paper } from "@mui/material";
-import TabPanels from "../../common/Tabs/TabPanels";
-import Panels from "../../common/Tabs/Panels";
-import ToolbarComponent from "../../common/ToolbarComponent/ToolbarComponent";
-import PositionedMenu from "../../common/PositionedMenu/PositionedMenu";
-import AddProject from "./AddProject/AddProject";
-import ViewProject from "./ViewProject/ViewProject";
-import IconButtonComponent from "../../common/IconButton/IconButtonComponent";
+import TabPanels from "../common/Tabs/TabPanels";
+import Panels from "../common/Tabs/Panels";
+import ToolbarComponent from "../common/ToolbarComponent/ToolbarComponent";
+import PositionedMenu from "../common/PositionedMenu/PositionedMenu";
+import IconButtonComponent from "../common/IconButton/IconButtonComponent";
 import { MoreHoriz } from "@mui/icons-material";
-import EditProject from "./EditProject/EditProject";
-import ProjectDetails from "./ProjectDetails/ProjectDetails";
+import AddUser from "./AddUser/AddUser";
+import EditUser from "./EditUser/EditUser";
+import ViewUser from "./ViewUsers/ViewUser";
 
 export default function Projects() {
   const [tabValue, setTableValue] = React.useState(1);
@@ -74,11 +73,11 @@ export default function Projects() {
             value={tabValue}
             components={[
               {
-                key: "currentProjects",
-                value: <ViewProject handleClick={handlePositionedMenuEdit} rowActionData={PositionedMenuEditItems} />,
+                key: "activeUsers",
+                value: <ViewUser handleClick={handlePositionedMenuEdit} rowActionData={PositionedMenuEditItems} />,
               },
               {
-                key: "historicalProjects",
+                key: "inactiveUsers",
                 value: <>historical</>,
               },
             ]}
@@ -87,12 +86,9 @@ export default function Projects() {
       </Box>
       {/******************* RENDER COMPONENTS ***********************************/}
 
-      {menuItemsData?.componentToRender == "createProject" && <AddProject showDialog={showDialog} handleDialog={handleDialog} />}
-      {menuItemsData?.componentToRender == "editProject" && (
-        <EditProject showDialog={showDialog} handleDialog={handleDialog} tableRowData={tableRowData} />
-      )}
-      {menuItemsData?.componentToRender == "projectDetails" && (
-        <ProjectDetails showDialog={showDialog} handleDialog={handleDialog} tableRowData={tableRowData} />
+      {menuItemsData?.componentToRender == "addUser" && <AddUser showDialog={showDialog} handleDialog={handleDialog} />}
+      {menuItemsData?.componentToRender == "editUser" && (
+        <EditUser showDialog={showDialog} handleDialog={handleDialog} tableRowData={tableRowData} />
       )}
 
       <PositionedMenu

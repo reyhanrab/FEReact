@@ -131,7 +131,7 @@ export const getMenuOptions = (icon, label) => {
   );
 };
 
-export const convertTimestamptoUSA = (input) => {
+export const convertDateToMMDDYYYY = (input) => {
   if (input) {
     let date = new Date(input);
     return date.toLocaleDateString('en-US', {

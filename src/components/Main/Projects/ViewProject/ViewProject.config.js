@@ -2,6 +2,7 @@ export const TableHeaders = [
     {
       title: "Title",
       property: "title",
+      operation: ["navigate"],
     },
     {
       title: "Description",

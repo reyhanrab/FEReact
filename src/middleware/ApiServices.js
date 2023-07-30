@@ -2,6 +2,7 @@ import axios from "axios";
 
 const genericPaths = [
   "/login",
+  "/signup",
   // "/register",
   // "/users/register/resendotp",
   // "/users/register/confirm",

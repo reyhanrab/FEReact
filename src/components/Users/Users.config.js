@@ -1,27 +1,28 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { getMenuOptions } from "../../common/commonfunctions";
+import { getMenuOptions } from "../common/commonfunctions";
+import { DELETEUSER } from "../../actions/Users/ActionCreators";
 
 export const TabsData = [
   {
     id: 1,
-    label: "Current",
-    component: "currentProjects",
+    label: "Active",
+    component: "activeUsers",
     value: 1,
   },
 
   {
     id: 2,
-    label: "Historical",
-    component: "historicalProjects",
+    label: "Inactive",
+    component: "inactiveUsers",
     value: 2,
   },
 ];
 
 export const ToolbarData = [
   {
-    label: "Projects",
-    accessor: "projects",
+    label: "Users",
+    accessor: "users",
   },
   {
     accessor: "tabs",
@@ -44,7 +45,7 @@ export const ToolbarStructure = [
     id: 2,
     tag: "div",
     component: "label",
-    accessor: "projects",
+    accessor: "users",
     styles: {
       fontWeight: "600",
       fontSize: "16px",
@@ -67,22 +68,23 @@ export const ToolbarStructure = [
 export const PositionedMenuAddItems = [
   {
     id: 1,
-    label: getMenuOptions(<AddCircleOutlineIcon />, 'Create Project'),
-    componentToRender: "createProject",
+    label: getMenuOptions(<AddCircleOutlineIcon />, 'Add Users'),
+    componentToRender: "addUser",
   },
 ];
 
 export const PositionedMenuEditItems = [
   {
     id: 1,
-    label: getMenuOptions(<EditOutlinedIcon />, "View Project"),
-    componentToRender: "projectDetails",
-    operation: ["view"],
+    label: getMenuOptions(<EditOutlinedIcon />, "Edit User"),
+    componentToRender: "editUser",
+    operation: ["edit"],
   },
   {
     id: 2,
-    label: getMenuOptions(<EditOutlinedIcon />, "Edit Project"),
-    componentToRender: "editProject",
-    operation: ["edit"],
+    label: getMenuOptions(<EditOutlinedIcon />, "Delete User"),
+    componentToRender: "deleteUser",
+    operation: ["disptach"],
+    action: (userId) => DELETEUSER(userId),
   },
 ];

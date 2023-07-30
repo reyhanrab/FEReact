@@ -152,7 +152,7 @@ const DynamicTable = (props) => {
                           icon={<MoreHoriz />}
                           handleClick={props.handleClick}
                           rowActionData={row.rowActionData}
-                          rowId = {row._id}
+                          rowId = {row}
                         />
                       </TableCell>
                     )}

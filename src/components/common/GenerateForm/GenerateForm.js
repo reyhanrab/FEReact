@@ -10,39 +10,27 @@ function GenerateForm(props) {
 
   if (data.type === "input") {
     return (
-      <Grid container>
-        <Grid item xs={data.xs}>
-          <TextFieldComp
-            data={data}
-            value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
-          />
-        </Grid>
-      </Grid>
+      <TextFieldComp
+        data={data}
+        value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+      />
     );
   }
   if (data.type === "date") {
     return (
-      <Grid container>
-        <Grid item xs={data.xs}>
-          <ResponsiveDatePicker
-            data={data}
-            value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
-            handleChange={handleChange}
-          />
-        </Grid>
-      </Grid>
+      <ResponsiveDatePicker
+        data={data}
+        value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+        handleChange={handleChange}
+      />
     );
   }
   if (data.type === "select") {
     return (
-      <Grid container>
-        <Grid item xs={data.xs}>
-          <SelectButton
-            data={data}
-            value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
-          />
-        </Grid>
-      </Grid>
+      <SelectButton
+        data={data}
+        value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], "")}
+      />
     );
   }
 }

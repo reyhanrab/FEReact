@@ -11,6 +11,7 @@ import GenerateForm from "../../../common/GenerateForm/GenerateForm";
 import { useDispatch, useSelector } from "react-redux";
 import { handleOptionsData } from "../../../common/commonfunctions";
 import { CREATEPROJECTS } from "../../../../actions/Projects/ActionCreators";
+import { Grid } from "@mui/material";
 
 function AddProject(props) {
   return (
@@ -32,6 +33,7 @@ function AddProject(props) {
 
 const RenderCreateProjectForm = (props) => {
   const [dateValue, setDateValue] = React.useState({});
+
   const dispatch = useDispatch();
   const formRef = React.useRef();
 
@@ -54,7 +56,7 @@ const RenderCreateProjectForm = (props) => {
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
     Object.assign(obj, dateValue);
-    
+
     for (const key in obj) {
       let trimmedValue = obj[key].trim();
       if (trimmedValue.length === 0) {
@@ -67,13 +69,15 @@ const RenderCreateProjectForm = (props) => {
   return (
     <>
       <form id="createProjectForm" ref={formRef} noValidate={true} onSubmit={handleSubmit}>
-        {modifiedFormConfig2.map((element) => {
-          return (
-            <div key={element.id}>
-              <GenerateForm data={element} handleChange={handleChange} />
-            </div>
-          );
-        })}
+        <Grid container>
+          {modifiedFormConfig2.map((element) => {
+            return (
+              <Grid item xs={element.xs} key={element.id}>
+                <GenerateForm data={element} handleChange={handleChange} key={element.id} />{" "}
+              </Grid>
+            );
+          })}
+        </Grid>
       </form>
     </>
   );

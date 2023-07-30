@@ -1,11 +1,13 @@
 import ApiServices, { handleNetworkError, dispatchApiMessage, dispatchAction } from "../../middleware/ApiServices";
 import { SUCCESSMSG, USERDATA } from "./Actions";
 
-export const SIGNUP = (obj, formRef) => async (dispatch) => {
+export const SIGNUP = (obj, formRef, navigate) => async (dispatch) => {
   try {
     const apiResponse = await ApiServices.post(`/signup`, obj);
-    if (apiResponse) {
+    console.log(apiResponse)
+    if (apiResponse.status == 200) {
       formRef.current.reset();
+      navigate("/login");
       dispatchApiMessage(dispatch, SUCCESSMSG, apiResponse.message);
     }
   } catch (error) {
@@ -32,17 +34,6 @@ export const LOGOUT = (userId, navigate) => async (dispatch) => {
     if (apiResponse) {
       navigate("/login");
       dispatchApiMessage(dispatch, SUCCESSMSG, apiResponse.message);
-    }
-  } catch (error) {
-    handleNetworkError(error);
-  }
-};
-
-export const GETUSERDATA = () => async (dispatch) => {
-  try {
-    const apiResponse = await ApiServices.get(`/api/users`);
-    if (apiResponse) {
-      dispatchAction(dispatch, USERDATA, apiResponse.results);
     }
   } catch (error) {
     handleNetworkError(error);

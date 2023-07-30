@@ -4,15 +4,19 @@ export const settings = [
   {
     id: 1,
     name: "profile",
+    operation: ["navigation"],
+    path: "/profile"
   },
   {
     id: 2,
-    name: "Account",
+    name: "Users",
+    operation: ["navigation"],
+    path: "/users"
   },
   {
     id: 3,
     name: "Logout",
-    operation: ["dispatch"],
+    operation: ["disptach"],
     action: (navigate) => LOGOUT(localStorage.getItem("userId"), navigate),
   },
 ];
@@ -25,7 +29,8 @@ export const pages = [
   {
     id: 2,
     name: "Project",
-    action: (navigate) => navigate("/projects"),
+    operation: ["navigation"],
+    path: "/projects",
   },
   {
     id: 3,
