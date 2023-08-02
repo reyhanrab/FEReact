@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Menu, MenuItem, Divider, styled, Tooltip, tooltipClasses } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 
 function PositionedMenu(props) {
   const handleMenuItemClick = (menuItemsData) => {

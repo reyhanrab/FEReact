@@ -5,8 +5,7 @@ export const GETPROJECTS = () => async (dispatch) => {
   try {
     const apiResponse = await ApiServices.get(`/api/projects`);
     if (apiResponse) {
-      dispatch(PROJECTSDATA(apiResponse.results))
-      // dispatchAction(dispatch, PROJECTSDATA, apiResponse.results);
+      dispatchAction(dispatch, PROJECTSDATA, apiResponse.results);
     }
   } catch (error) {
     handleNetworkError(error);

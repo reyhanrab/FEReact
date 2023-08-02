@@ -12,9 +12,35 @@ export const GETUSERDATA = () => async (dispatch) => {
   }
 };
 
+export const ADDUSER = (obj, formRef, handleDialog, showDialog) => async (dispatch) => {
+  try {
+    const apiResponse = await ApiServices.post(`/api/users`, { data: obj });
+    if (apiResponse) {
+      dispatch(GETUSERDATA());
+      formRef.current.reset();
+      handleDialog(!showDialog);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+
+export const EDITUSER = (id, obj, formRef, handleDialog, showDialog) => async (dispatch) => {
+  try {
+    const apiResponse = await ApiServices.patch(`/api/users/${id}`, { data: obj });
+    if (apiResponse) {
+      dispatch(GETUSERDATA());
+      formRef.current.reset();
+      handleDialog(!showDialog);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+
 export const DELETEUSER = (id) => async (dispatch) => {
   try {
-    const apiResponse = await ApiServices.patch(`/api/users/${id}`);
+    const apiResponse = await ApiServices.delete(`/api/users/${id}`);
     if (apiResponse) {
       dispatch(GETUSERDATA());
     }

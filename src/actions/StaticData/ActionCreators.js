@@ -1,5 +1,5 @@
 import ApiServices, { handleNetworkError, dispatchAction } from "../../middleware/ApiServices";
-import { PRIORITYDATA, STATUSDATA } from "./Actions";
+import { PRIORITYDATA, STATUSDATA, ROLESDATA } from "./Actions";
 
 export const GETPRIORITY = () => async (dispatch) => {
   try {
@@ -22,3 +22,15 @@ export const GETSTATUSES = () => async (dispatch) => {
     handleNetworkError(error);
   }
 };
+
+export const GETROLES = () => async (dispatch) => {
+  try {
+    const apiResponse = await ApiServices.get(`/api/roles`);
+    if (apiResponse) {
+      dispatchAction(dispatch, ROLESDATA, apiResponse.results);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+

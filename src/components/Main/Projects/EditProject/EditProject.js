@@ -41,7 +41,7 @@ const RenderEditProjectForm = (props) => {
   const dispatch = useDispatch();
   const formRef = React.useRef();
 
-  const userData = useSelector((state) => state.GeneralReducer.userData);
+  const userData = useSelector((state) => state.UsersReducer.userData);
   const statusData = useSelector((state) => state.StaticDataReducer.statusData);
   const projectsData = useSelector((state) => state.ProjectReducer.projectData);
 

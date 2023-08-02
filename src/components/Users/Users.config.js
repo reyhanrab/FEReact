@@ -1,5 +1,6 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { getMenuOptions } from "../common/commonfunctions";
 import { DELETEUSER } from "../../actions/Users/ActionCreators";
 
@@ -82,7 +83,7 @@ export const PositionedMenuEditItems = [
   },
   {
     id: 2,
-    label: getMenuOptions(<EditOutlinedIcon />, "Delete User"),
+    label: getMenuOptions(<RemoveCircleOutlineOutlinedIcon />, "Delete User"),
     componentToRender: "deleteUser",
     operation: ["disptach"],
     action: (userId) => DELETEUSER(userId),

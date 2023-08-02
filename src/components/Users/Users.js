@@ -10,6 +10,8 @@ import { MoreHoriz } from "@mui/icons-material";
 import AddUser from "./AddUser/AddUser";
 import EditUser from "./EditUser/EditUser";
 import ViewUser from "./ViewUsers/ViewUser";
+import { useDispatch } from "react-redux";
+
 
 export default function Projects() {
   const [tabValue, setTableValue] = React.useState(1);
@@ -20,8 +22,16 @@ export default function Projects() {
   const [menuItemsEditData, setmenuItemsEditData] = React.useState(null);
   const [tableRowData, settableRowData] = React.useState("");
 
+  const disptach = useDispatch();
+
   const addOpen = Boolean(addAnchorEl);
   const editOpen = Boolean(editAnchorEl);
+
+  React.useEffect(() => {
+    if (menuItemsData && menuItemsData?.operation?.includes("disptach")) {
+      return disptach(menuItemsData.action(tableRowData._id));
+    }
+  }, [menuItemsData]);
 
   const handleDialog = (value, menuItemsData) => {
     setmenuItemsData(menuItemsData);
@@ -74,11 +84,23 @@ export default function Projects() {
             components={[
               {
                 key: "activeUsers",
-                value: <ViewUser handleClick={handlePositionedMenuEdit} rowActionData={PositionedMenuEditItems} />,
+                value: (
+                  <ViewUser
+                    handleClick={handlePositionedMenuEdit}
+                    rowActionData={PositionedMenuEditItems}
+                    tabValue={tabValue === 1 ? "active" : "inactive"}
+                  />
+                ),
               },
               {
                 key: "inactiveUsers",
-                value: <>historical</>,
+                value: (
+                  <ViewUser
+                    handleClick={handlePositionedMenuEdit}
+                    rowActionData={PositionedMenuEditItems}
+                    tabValue={tabValue === 1 ? "active" : "inactive"}
+                  />
+                ),
               },
             ]}
           />
@@ -86,8 +108,8 @@ export default function Projects() {
       </Box>
       {/******************* RENDER COMPONENTS ***********************************/}
 
-      {menuItemsData?.componentToRender == "addUser" && <AddUser showDialog={showDialog} handleDialog={handleDialog} />}
-      {menuItemsData?.componentToRender == "editUser" && (
+      {menuItemsData?.componentToRender === "addUser" && <AddUser showDialog={showDialog} handleDialog={handleDialog} />}
+      {menuItemsData?.componentToRender === "editUser" && (
         <EditUser showDialog={showDialog} handleDialog={handleDialog} tableRowData={tableRowData} />
       )}
 

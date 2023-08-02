@@ -7,7 +7,6 @@ const initialState = {
 const ProjectReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case PROJECTS_DATA:
-      console.log('action.payload.value',action.payload.value)
       // return Object.assign({}, state, {
       //   projectData: action.payload.value,
       // });

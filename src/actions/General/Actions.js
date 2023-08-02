@@ -1,4 +1,4 @@
-import { SUCCESS_MSG, ERROR_MSG, USER_DATA } from "./Types.js";
+import { SUCCESS_MSG, ERROR_MSG } from "./Types.js";
 
 /*------------------------------GET HIstory survey flows -------------------------------------------*/
 
@@ -12,13 +12,6 @@ export const SUCCESSMSG = (value) => {
 export const ERRORMSG = (value) => {
   return {
     type: ERROR_MSG,
-    payload: { value },
-  };
-};
-
-export const USERDATA = (value) => {
-  return {
-    type: USER_DATA,
     payload: { value },
   };
 };

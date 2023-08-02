@@ -1,6 +1,5 @@
-import { PRIORITY_DATA, STATUS_DATA } from "./Types.js";
+import { PRIORITY_DATA, STATUS_DATA, ROLES_DATA } from "./Types.js";
 
-/*------------------------------GET HIstory survey flows -------------------------------------------*/
 
 export const PRIORITYDATA = (value) => {
   return {
@@ -12,6 +11,13 @@ export const PRIORITYDATA = (value) => {
 export const STATUSDATA = (value) => {
   return {
     type: STATUS_DATA,
+    payload: { value },
+  };
+};
+
+export const ROLESDATA = (value) => {
+  return {
+    type: ROLES_DATA,
     payload: { value },
   };
 };

@@ -1,4 +1,4 @@
-import { SUCCESS_MSG, USER_DATA } from "../actions/General/Types";
+import { SUCCESS_MSG } from "../actions/General/Types";
 
 const initialState = {
   successMsg: "",
@@ -10,10 +10,6 @@ const GeneralReducer = (state = initialState, action = {}) => {
     case SUCCESS_MSG:
       return Object.assign({}, state, {
         successMsg: action.payload.value,
-      });
-    case USER_DATA:
-      return Object.assign({}, state, {
-        userData: action.payload.value,
       });
     default:
       return state;

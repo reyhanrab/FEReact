@@ -35,18 +35,18 @@ export const returnValueOrDefaultNested = (conditions, trueValues, falseValue) =
 };
 
 export const validateError = (data, errorValue = []) => {
-  return errorValue.some((error) => error.fieldName == data.name);
+  return errorValue.some((error) => error.fieldName === data.name);
 };
 
 export const validateHelperText = (data, errorValue = []) => {
-  const value = errorValue.find((error) => error.fieldName == data.name);
+  const value = errorValue.find((error) => error.fieldName === data.name);
   return value?.text;
 };
 
 export const handleOptionsData = (formData, accessor, optionsData) => {
   const arr = [];
   formData?.forEach((data) => {
-    if (data.accessor == accessor) {
+    if (data.accessor === accessor) {
       arr.push({ ...data, options: optionsData });
     } else {
       arr.push({ ...data });
@@ -56,7 +56,7 @@ export const handleOptionsData = (formData, accessor, optionsData) => {
 };
 
 export const defaultSorting = (data) => {
-  let returnValue = '';
+  let returnValue = "";
   data.forEach((value) => {
     if (value.defaultSorting) {
       returnValue = value.accessor;
@@ -66,10 +66,10 @@ export const defaultSorting = (data) => {
 };
 
 export const defaultSortingOrder = (data) => {
-  let returnValue = 'asc';
+  let returnValue = "asc";
   data.forEach((value) => {
-    if (value.defaultSortingOrder == 'desc') {
-      returnValue = 'desc';
+    if (value.defaultSortingOrder === "desc") {
+      returnValue = "desc";
     }
   });
   return returnValue;
@@ -84,20 +84,19 @@ export const nestedIfCaseHandle = (condition, trueValue, falseValue) => {
 };
 
 export const convertNull = (temp, header, showNA) => {
-  if (temp[header.property] == null || temp[header.property] == undefined) {
-    temp[header.property] = nestedIfCaseHandle(showNA, 'N/A', '');
+  if (temp[header.property] === null || temp[header.property] === undefined) {
+    temp[header.property] = nestedIfCaseHandle(showNA, "N/A", "");
   }
   return temp;
 };
 
 export const addRowActionData = (temp, rowActionData) => {
-  temp.rowActionData = rowActionData
+  temp.rowActionData = rowActionData;
   return temp;
 };
 
-
 export const restructureArray = (records, jsonData, showNA, rowActionData) => {
-  return records?.map((data) => {
+  const arr = records?.map((data) => {
     let temp = { ...data };
     jsonData.forEach((header) => {
       convertNull(temp, header, showNA);
@@ -118,15 +117,14 @@ export const restructureArray = (records, jsonData, showNA, rowActionData) => {
     });
     return temp;
   });
+  return arr;
 };
 
 export const getMenuOptions = (icon, label) => {
   return (
-    <div style={{ display: 'flex' }}>
-      <div>
-        {icon}
-      </div>
-      <div style={{ paddingLeft: '5px', fontWeight: 400 }}>{label}</div>
+    <div style={{ display: "flex" }}>
+      <div>{icon}</div>
+      <div style={{ paddingLeft: "5px", fontWeight: 400 }}>{label}</div>
     </div>
   );
 };
@@ -134,10 +132,10 @@ export const getMenuOptions = (icon, label) => {
 export const convertDateToMMDDYYYY = (input) => {
   if (input) {
     let date = new Date(input);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     });
   }
   return null;
