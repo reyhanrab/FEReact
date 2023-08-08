@@ -4,8 +4,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { FORMCONFIG } from "./profile.config";
 import GenerateForm from "../common/GenerateForm/GenerateForm";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { EDITPROFILE, GETUSERDATA } from "../../actions/Users/ActionCreators";
 
 function Profile() {
+  const dispatch = useDispatch();
+
+  const [currentUser, setCurrentUser] = React.useState({});
+
+  let userData = useSelector((state) => state.UsersReducer.userData);
+
+  React.useEffect(() => {
+    if (userData.length == 0) {
+      dispatch(GETUSERDATA());
+    }
+  }, []);
+
+  React.useEffect(() => {
+    setCurrentUser(userData.find((user) => user._id == localStorage.getItem("userId")));
+  }, [userData]);
+
   return (
     <Box sx={{ marginTop: "calc(100% - 95%)" }}>
       <Grid container spacing={2}>
@@ -13,8 +30,8 @@ function Profile() {
         <Grid item xs={2}>
           <Paper elevation={3}>
             <div style={{ padding: "20px", backgroundColor: "#e2e8ec" }}>
-              <Typography style={{ textAlign: "center" }}>Mohammed Reyhan</Typography>
-              <Typography style={{ textAlign: "center" }}>@reyhanrab</Typography>
+              <Typography style={{ textAlign: "center" }}>{currentUser?.firstname + " " + currentUser?.lastname}</Typography>
+              <Typography style={{ textAlign: "center" }}>{currentUser?.username}</Typography>
             </div>
             <div style={{ textAlign: "center" }}>
               <PersonOutlineOutlinedIcon sx={{ fontSize: "100px" }} />
@@ -25,7 +42,7 @@ function Profile() {
         <Grid item xs={4}>
           <Paper elevation={3}>
             <div style={{ backgroundColor: "#e2e8ec", padding: "20px" }}>Edit Profile</div>
-            <RenderEditProfileForm />
+            <RenderEditProfileForm currentUser={currentUser} />
           </Paper>
         </Grid>
         <Grid item xs={3}></Grid>
@@ -34,13 +51,9 @@ function Profile() {
   );
 }
 
-const RenderEditProfileForm = (props) => {
+const RenderEditProfileForm = ({ currentUser }) => {
   const dispatch = useDispatch();
   const formRef = React.useRef();
-
-  const userData = useSelector((state) => state.GeneralReducer.userData);
-
-  console.log("userDAta", userData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,24 +66,20 @@ const RenderEditProfileForm = (props) => {
         delete obj[key];
       }
     }
-
-    console.log("obj", obj);
-    // dispatch(CREATEPROJECTS(obj, formRef, props.handleDialog, props.showDialog));
+    dispatch(EDITPROFILE(currentUser._id, obj, formRef));
   };
 
   return (
     <>
-      <form id="editProfileForm" ref={formRef} noValidate={true} onSubmit={handleSubmit}>
+      <form id="editProfileForm" ref={formRef} onSubmit={handleSubmit}>
         <Grid container spacing={1} sx={{ padding: "20px" }}>
-          {userData.map((user) =>
-            FORMCONFIG.map((element) => {
-              return (
-                <Grid item xs={element.xs} key={element.id}>
-                  <GenerateForm data={element} tableRowData={user} />
-                </Grid>
-              );
-            })
-          )}
+          {FORMCONFIG.map((element) => {
+            return (
+              <Grid item xs={element.xs} key={element.id}>
+                <GenerateForm data={element} tableRowData={currentUser} />
+              </Grid>
+            );
+          })}
         </Grid>
         <Box sx={{ padding: "20px" }}>
           <Button variant="contained" disabled={true} sx={{ marginLeft: "10px" }}>
