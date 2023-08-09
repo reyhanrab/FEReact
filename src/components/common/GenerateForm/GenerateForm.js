@@ -1,15 +1,36 @@
 import { Grid } from "@mui/material";
 import * as React from "react";
 import TextFieldComp from "../TextField/TextFieldComp";
+import ResponsiveDatePicker from "../DatePicker/ResponsiveDatePicker";
+import SelectButton from "../SelectButton/SelectButton";
+import { returnValueOrDefaultNested } from "../commonfunctions";
 
 function GenerateForm(props) {
-  if (props.data.type === "input") {
+  const { data, tableRowData = {}, handleChange } = props;
+
+  if (data.type === "input") {
     return (
-      <Grid container>
-        <Grid item xs={props.data.xs}>
-          <TextFieldComp data={props.data} />
-        </Grid>
-      </Grid>
+      <TextFieldComp
+        data={data}
+        value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+      />
+    );
+  }
+  if (data.type === "date") {
+    return (
+      <ResponsiveDatePicker
+        data={data}
+        value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], null)}
+        handleChange={handleChange}
+      />
+    );
+  }
+  if (data.type === "select") {
+    return (
+      <SelectButton
+        data={data}
+        value={returnValueOrDefaultNested([data.accessor in tableRowData], [tableRowData[data.accessor]], "")}
+      />
     );
   }
 }

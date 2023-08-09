@@ -9,6 +9,8 @@ import ProtectedRoute from "./ProtectedRoutes";
 import Projects from "./components/Main/Projects/Projects";
 import Navbar from "./components/Navbar/Navbar";
 import SignUp from "./components/SignUp/SignUp";
+import Profile from "./components/Profile/Profile";
+import Users from "./components/Users/Users";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/main" element={<ProtectedRoute Component = {Main} />} />
           <Route path="/projects" element={<ProtectedRoute Component = {Projects} />} />
+          <Route path="/profile" element={<ProtectedRoute Component = {Profile} />} />
+          <Route path="/users" element={<ProtectedRoute Component = {Users} />} />
           <Route path="*" element={<h3>Not Found</h3>} />
         </Routes>
       </HashRouter>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Grid, Toolbar } from "@mui/material";
 import { returnValueOrDefault } from "../commonfunctions";
 
-export default function ToolbarComponent(props) {
+function ToolbarComponent(props) {
   const onPressClick = (ToolbarData) => {
     if (!ToolbarData.disabled) {
       if (ToolbarData.operation?.includes("click") && props.data) {
@@ -14,7 +14,7 @@ export default function ToolbarComponent(props) {
     }
   };
   return (
-    <Toolbar>
+    <Toolbar sx={{ minHeight: "48px !important" }}>
       <Grid container>
         <Grid
           item
@@ -26,8 +26,10 @@ export default function ToolbarComponent(props) {
               if (props.tabs && ToolbarData.accessor === "tabs") ToolbarData.label = props.tabs;
               if (ToolbarData.accessor === ToolbarStructureData.accessor) {
                 return (
-                  <ToolbarStructureData.tag key={ToolbarStructureData.id} onClick={onPressClick(ToolbarData)}
-                  style={returnValueOrDefault(ToolbarStructureData.styles, {})}>
+                  <ToolbarStructureData.tag
+                    key={ToolbarStructureData.id}
+                    style={returnValueOrDefault(ToolbarStructureData.styles, {})}
+                  >
                     {ToolbarData[ToolbarStructureData.component]}
                   </ToolbarStructureData.tag>
                 );
@@ -39,3 +41,5 @@ export default function ToolbarComponent(props) {
     </Toolbar>
   );
 }
+
+export default React.memo(ToolbarComponent);

@@ -3,7 +3,7 @@ import { FormControl, TextField } from "@mui/material";
 import { returnValueOrDefault, validateError, validateHelperText } from "../commonfunctions.js";
 
 function TextFieldComp(props) {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(props.value);
 
   const handleChange = (event) => {
     setValue(event.target.value);

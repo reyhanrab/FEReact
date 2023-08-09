@@ -2,6 +2,7 @@ import axios from "axios";
 
 const genericPaths = [
   "/login",
+  "/signup",
   // "/register",
   // "/users/register/resendotp",
   // "/users/register/confirm",
@@ -41,6 +42,9 @@ ApiServices.interceptors.response.use(
     return response.data;
   },
   function (error) {
+    if(error.response.status === 400) {
+      alert(error.response.data.message)
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     // if (error.response.status !== 403) {
@@ -59,6 +63,10 @@ export const dispatchApiMessage = (dispatch, Action, message) => {
   setTimeout(() => {
     dispatch(Action(""));
   }, 3000);
+};
+
+export const dispatchAction = (dispatch, Action, data) => {
+  dispatch(Action(data));
 };
 
 export default ApiServices;
